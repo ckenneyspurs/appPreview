@@ -115,6 +115,7 @@
 
   /* 9:16 MEDIA */
   .media { position: relative; aspect-ratio: 9 / 16; width: 100%; background: var(--panel-2); overflow: hidden; border-bottom: 1px solid var(--line); }
+  .media2 { position: relative; aspect-ratio: 16 / 9; width: 100%; background: var(--panel-2); overflow: hidden; border-bottom: 1px solid var(--line); }
   .media img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
   .media .corner { position: absolute; width: 14px; height: 14px; border-color: var(--silver); border-style: solid; opacity: .7; pointer-events: none; }
   .corner.tl { top: 8px; left: 8px; border-width: 1px 0 0 1px; }
@@ -140,6 +141,12 @@
   .step-text { padding: 22px 24px; order: 1; align-self: center; white-space: pre-line; }
   .step-text h3 { font-size: 20px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--silver-hi); white-space: pre-line; }
   .step-text p { margin-top: 8px; color: var(--silver-lo); font-size: 15px; white-space: pre-line; }
+
+  .card-landscape {
+  display: flex;
+  flex-direction: column;
+  align-self: end;
+}
 
   /* FOOTER */
   .footer { max-width: 1200px; margin: 0 auto; padding: 40px clamp(16px, 4vw, 48px) 64px; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--silver-lo); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
@@ -183,7 +190,7 @@
     tag: "San Antonio Spurs App // Version 1.0",
     headline: "The New Spurs App",
     subhead: "A look at how we got here, what is new in 1.0 and where we are headed next.",
-    footerLeft: "San Antonio Spurs - Digital Products // Digital Product",
+    footerLeft: "San Antonio Spurs - Digital Products",
     footerRight: "App v1.0"
   };
 
@@ -221,9 +228,7 @@
           title: "Learning From the League",
           text: [
             "Consulted with other teams in the league and the NBA.",
-            "We asked how they felt and who would stay with their provider",
-            "Among the other teams with Raw, we were the first one to decide to swap.",
-            "Since then, 2 other teams have swapped."
+            "Magic, Hawks, Grizzlies, Lakers, Cavaliers, Pelicans"
           ]
         },
         {
@@ -242,8 +247,12 @@
           label: "Step 04 // Decide",
           title: "A Unanimous Decision",
           text: [
-            "Our final decision was unanimous: YinzCam."
-          ],
+  h(React.Fragment, null,
+    "Partnerships, Memberships, Purchasing, Marketing, Arena Ops, Digital Products, Data & Analytics, innovation all came to a unanimous decision: ",
+    h("strong", null, "YinzCam"),
+          "."
+          )
+        ],
           highlight: true
         }
       ]
@@ -251,10 +260,10 @@
 
     {
       id: "arena",
-      navLabel: "Segmentation",
+      navLabel: "Content",
       kind: "features",
-      eyebrow: "Personalizing to each fan",
-      title: "Showing the fan what they want to see",
+      eyebrow: "",
+      title: "Relevant Content",
       blurb: "A full version of the app built for game day at the Frost Bank Center.",
       items: [
         { title: "STM Portal", text: "Season ticket members having their own section to access their benefits and resources", image: "images/stmPortal.jpeg" },
@@ -266,35 +275,35 @@
 
     {
       id: "arcade",
-      navLabel: "Arcade",
+      navLabel: "Engage",
       kind: "features",
-      eyebrow: "Play",
-      title: "Giving a reason to interact on non-gameday",
-      blurb: "When the Spurs are off, we give fans things to interact with and compete with to stay engaged with the Spurs.",
+      eyebrow: "",
+      title: "A reason to stay engaged",
+      blurb: "When the Spurs are off, we give fans ways to interact and compete to stay engaged with the Spurs.",
       items: [
-        { title: "Pop a shot game", text: "Describe this game in a sentence or two.", image: "images/popashot.jpeg" },
-        { title: "Maze Game", text: "Describe this game in a sentence or two.", image: "images/mazegame.jpeg" },
+        { title: "Fan Shop", text: "We bring the fan shop directly to the them to make it easy to be ready for the next game", image: "images/Shop.jpeg" },
+        { title: "Maze Game", text: "Get out of the Maze in a Spurs themed movement based puzzle", image: "images/mazegame.jpeg" },
         { title: "The Vault", text: "3 games in one place! Best of 3, Six Clues and Higher/Lower", image: "images/vault2.png" }
       ]
     },
 
     {
       id: "qol",
-      navLabel: "Meeting fans where they are!",
+      navLabel: "Mobility",
       kind: "features",
-      eyebrow: "Refinement",
-      title: "Meeting fans where they are!",
+      eyebrow: "",
+      title: "Meeting fans where they are",
       blurb: "We know life is busy for our fans, so went want to meet them where they are to make sure they dont miss the action!",
       items: [
-        { title: "Update Title One", text: "Describe this improvement in a sentence or two.", image: "images/liveActivities.jpeg" },
-        { title: "Update Title Two", text: "Describe this improvement in a sentence or two.", image: "images/Carplay.jpeg" },
-        { title: "Update Title Three", text: "Describe this improvement in a sentence or two.", image: "images/qol-3.jpg" }
+        { title: "Live Activities", text: "Keep up with the game on your home screen", image: "images/liveActivities.jpeg" },
+        { title: "Apple Car Play", text: "Even on the go they can stay in tuned with the Spurs", image: "images/Carplay.jpeg", ratio: "16 / 9" },
+        { title: "Targeted Push Notifications", text: "Making the fan feel special and seen by sending personalized push notifications", image: "images/push.jpeg" }
       ]
     },
 
     {
       id: "themes",
-      navLabel: "Themes",
+      navLabel: "Moments",
       kind: "features",
       eyebrow: "Personalization",
       title: "Showcasing the moment digitally",
@@ -314,9 +323,9 @@
       title: "The Road Ahead",
       blurb: "Where the app goes after 1.0.",
       items: [
-        { when: "Next", title: "Roadmap Item One", text: "Describe what is coming and why it matters.", image: "images/future-1.jpg" },
-        { when: "Soon", title: "Roadmap Item Two", text: "Describe what is coming and why it matters.", image: "images/future-2.jpg" },
-        { when: "Later", title: "Roadmap Item Three", text: "Describe what is coming and why it matters.", image: "" }
+        { when: "Next", title: "Expand Loyalty program rewards and impact", text: "Continue to grow our membership in the loyalty program and learn about our fans on how to utilize it.", image: "images/rewards.jpeg" },
+        { when: "Soon", title: "Create new revenue opporunities", text: "Experiment with new ways to incorporate sponsors, and merch with targered ad placement and follow up information related to user behavior", image: "images/roster.jpeg" },
+        { when: "Later", title: "Increase our reach", text: "Offer multiple language options to increase accessibility from fans all around the world", image: "images/news.jpeg" }
       ]
     }
 
@@ -331,7 +340,10 @@
   function Media(props) {
     var _s = React.useState(false), failed = _s[0], setFailed = _s[1];
     var showImg = props.src && !failed;
-    return h("div", { className: "media" },
+    return h("div", {
+      className: "media",
+      style: { aspectRatio: props.ratio || "9 / 16" }
+    },
       showImg
         ? h("img", { src: props.src, alt: props.alt || "", loading: "lazy", style: { objectFit: props.fit || "cover" }, onError: function () { setFailed(true); } })
         : h("div", { className: "placeholder" },
@@ -377,8 +389,16 @@
   function FeatureSection(props) {
     return h("div", { className: "grid" },
       props.section.items.map(function (it, i) {
-        return h("article", { className: "card", key: i },
-          h(Media, { src: it.image, alt: it.title, fit: it.fit }),
+        return h("article", {
+  className: "card" + (it.ratio === "16 / 9" ? " card-landscape" : ""),
+  key: i
+},
+          h(Media, {
+              src: it.image,
+              alt: it.title,
+              fit: it.fit,
+              ratio: it.ratio
+            }),
           h("div", { className: "card-body" },
             h("h3", null, it.title),
             h("p", null, it.text)
@@ -389,21 +409,30 @@
   }
 
   function RoadmapSection(props) {
-    return h("div", { className: "roadmap" },
-      props.section.items.map(function (it, i) {
-        return h("div", { className: "step", key: i },
-          h("div", { className: "step-when" }, it.when),
-          h("article", { className: "step-card" + (it.image ? " has-media" : "") },
-            h("div", { className: "step-text" },
-              h("h3", null, it.title),
-              h("p", null, it.text)
-            ),
-            it.image ? h(Media, { src: it.image, alt: it.title, fit: it.fit }) : null
-          )
-        );
-      })
-    );
-  }
+  return h("div", { className: "roadmap" },
+    props.section.items.map(function (it, i) {
+      return h("div", { className: "step", key: i },
+        h("div", { className: "step-when" }, it.when),
+        h("article", {
+          className: "step-card" + (it.image ? " has-media" : "")
+        },
+          h("div", { className: "step-text" },
+            h("h3", null, it.title),
+            h("p", null, it.text)
+          ),
+          it.image
+            ? h(Media, {
+                src: it.image,
+                alt: it.title,
+                fit: it.fit,
+                ratio: it.ratio
+              })
+            : null
+        )
+      );
+    })
+  );
+}
 
   // Add a new kind here, then use it as kind: "..." in SECTIONS.
   var RENDERERS = { journey: JourneySection, features: FeatureSection, roadmap: RoadmapSection };

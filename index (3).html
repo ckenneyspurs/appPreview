@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>App 1.0 Showcase</title>
+<meta name="theme-color" content="#050506">
+<style>
+  :root {
+    --bg: #050506;
+    --panel: #0d0e11;
+    --panel-2: #14161a;
+    --line: #2a2d33;
+    --silver: #c9ced6;
+    --silver-hi: #f4f6f9;
+    --silver-lo: #7d838d;
+    --accent: #e8ecf2;
+    --glow: rgba(210, 218, 230, 0.18);
+    --font: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+  body {
+    background: var(--bg);
+    color: var(--silver);
+    font-family: var(--font);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: "";
+    position: fixed; inset: 0; z-index: -1;
+    background:
+      radial-gradient(ellipse at 20% 0%, rgba(160,170,185,0.10), transparent 55%),
+      radial-gradient(ellipse at 90% 40%, rgba(120,130,145,0.07), transparent 50%),
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: auto, auto, 48px 48px, 48px 48px;
+  }
+
+  /* NAV */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 14px clamp(16px, 4vw, 48px);
+    background: rgba(5,5,6,0.82);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .brand { font-family: var(--mono); font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--silver-hi); white-space: nowrap; }
+  .nav-links { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+  .nav-links::-webkit-scrollbar { display: none; }
+  .nav-links a {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--silver-lo); text-decoration: none; padding: 8px 12px; border: 1px solid transparent;
+    border-radius: 2px; white-space: nowrap; transition: all .2s;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--silver-hi); border-color: var(--line); background: var(--panel); }
+
+  /* HERO */
+  .hero { padding: clamp(72px, 14vw, 160px) clamp(16px, 4vw, 48px) clamp(56px, 8vw, 96px); max-width: 1200px; margin: 0 auto; }
+  .tag {
+    display: inline-block; font-family: var(--mono); font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--silver-hi); border: 1px solid var(--line); padding: 6px 12px; border-radius: 2px; background: var(--panel);
+  }
+  .hero h1 {
+    margin-top: 24px; font-size: clamp(44px, 9vw, 112px); line-height: 0.98; font-weight: 800; letter-spacing: -0.03em; text-transform: uppercase;
+    background: linear-gradient(180deg, #ffffff 0%, #b8bec8 45%, #6f7580 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero p { margin-top: 24px; max-width: 620px; font-size: clamp(16px, 2vw, 20px); color: var(--silver-lo); }
+  .hero-line { margin-top: 48px; height: 1px; background: linear-gradient(90deg, var(--silver) 0%, transparent 80%); }
+
+  /* SECTIONS */
+  .section { max-width: 1200px; margin: 0 auto; padding: clamp(56px, 8vw, 104px) clamp(16px, 4vw, 48px); border-top: 1px solid var(--line); }
+  .sec-head { display: flex; gap: clamp(16px, 3vw, 40px); align-items: flex-start; margin-bottom: clamp(32px, 5vw, 56px); }
+  .sec-num {
+    font-family: var(--mono); font-size: clamp(40px, 7vw, 84px); font-weight: 700; line-height: 1; color: transparent;
+    -webkit-text-stroke: 1px var(--silver-lo);
+  }
+  .sec-eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--silver-lo); }
+  .sec-title { font-size: clamp(30px, 5vw, 56px); line-height: 1.05; font-weight: 800; letter-spacing: -0.02em; text-transform: uppercase; color: var(--silver-hi); margin-top: 6px; }
+  .sec-blurb { margin-top: 14px; max-width: 640px; color: var(--silver-lo); font-size: clamp(15px, 1.8vw, 18px); }
+
+  /* JOURNEY */
+  .journey { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: clamp(16px, 2.5vw, 28px); }
+  .j-step { position: relative; background: var(--panel); border: 1px solid var(--line); border-top: 2px solid var(--silver-lo); border-radius: 4px; padding: 24px 22px 28px; }
+  .j-idx { font-family: var(--mono); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--silver-lo); }
+  .j-step h3 { margin-top: 12px; font-size: 19px; line-height: 1.2; color: var(--silver-hi); text-transform: uppercase; letter-spacing: 0.03em; }
+  .j-step p { margin-top: 10px; font-size: 15px; color: var(--silver-lo); }
+  .j-list { list-style: none; margin-top: 14px; display: grid; gap: 10px; }
+  .j-list li { position: relative; padding-left: 20px; font-size: 15px; color: var(--silver-lo); }
+  .j-list li::before {
+    content: ""; position: absolute; left: 0; top: 0.62em; width: 7px; height: 7px;
+    background: var(--silver); transform: rotate(45deg); opacity: .85;
+  }
+  .j-step.final {
+    border-color: var(--silver); border-top-color: var(--silver-hi);
+    background: linear-gradient(160deg, rgba(255,255,255,0.09), var(--panel) 60%);
+    box-shadow: 0 12px 40px var(--glow);
+  }
+  .j-step.final .j-idx { color: var(--silver-hi); }
+  .j-step.final .j-list li { color: var(--silver); }
+  .j-step.final .j-list li::before { background: var(--silver-hi); }
+
+  /* FEATURE GRID (cards hold 9:16 images, so they stay narrow) */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 300px)); justify-content: center; gap: clamp(16px, 2.5vw, 28px); }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; transition: transform .3s, border-color .3s, box-shadow .3s; }
+  .card:hover { transform: translateY(-4px); border-color: var(--silver-lo); box-shadow: 0 12px 40px var(--glow); }
+  .card-body { padding: 20px 22px 24px; }
+  .card h3 { font-size: 18px; color: var(--silver-hi); text-transform: uppercase; letter-spacing: 0.04em; }
+  .card p { margin-top: 8px; font-size: 15px; color: var(--silver-lo); }
+
+  /* 9:16 MEDIA */
+  .media { position: relative; aspect-ratio: 9 / 16; width: 100%; background: var(--panel-2); overflow: hidden; border-bottom: 1px solid var(--line); }
+  .media img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .media .corner { position: absolute; width: 14px; height: 14px; border-color: var(--silver); border-style: solid; opacity: .7; pointer-events: none; }
+  .corner.tl { top: 8px; left: 8px; border-width: 1px 0 0 1px; }
+  .corner.tr { top: 8px; right: 8px; border-width: 1px 1px 0 0; }
+  .corner.bl { bottom: 8px; left: 8px; border-width: 0 0 1px 1px; }
+  .corner.br { bottom: 8px; right: 8px; border-width: 0 1px 1px 0; }
+  .placeholder {
+    position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--silver-lo); text-align: center; padding: 12px;
+    background:
+      linear-gradient(135deg, rgba(255,255,255,0.05), transparent 50%),
+      repeating-linear-gradient(45deg, transparent 0 14px, rgba(255,255,255,0.025) 14px 15px);
+  }
+  .placeholder b { color: var(--silver); font-weight: 600; }
+
+  /* ROADMAP */
+  .roadmap { position: relative; display: grid; gap: clamp(16px, 2.5vw, 28px); }
+  .step { display: grid; grid-template-columns: 120px 1fr; gap: clamp(16px, 3vw, 36px); align-items: stretch; }
+  .step-when { font-family: var(--mono); font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--silver-hi); padding-top: 20px; border-top: 1px solid var(--silver); }
+  .step-card { background: var(--panel); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; display: grid; grid-template-columns: 1fr; }
+  .step-card.has-media { grid-template-columns: minmax(0, 1fr) 240px; }
+  .step-card .media { border-bottom: 0; border-left: 1px solid var(--line); order: 2; align-self: center; }
+  .step-text { padding: 22px 24px; order: 1; align-self: center; white-space: pre-line; }
+  .step-text h3 { font-size: 20px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--silver-hi); white-space: pre-line; }
+  .step-text p { margin-top: 8px; color: var(--silver-lo); font-size: 15px; white-space: pre-line; }
+
+  /* FOOTER */
+  .footer { max-width: 1200px; margin: 0 auto; padding: 40px clamp(16px, 4vw, 48px) 64px; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--silver-lo); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+
+  /* REVEAL */
+  .reveal { opacity: 1; transform: none; }
+  .js-reveal .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+  .js-reveal .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .js-reveal .reveal { opacity: 1; transform: none; transition: none; }
+    .card, .card:hover { transition: none; transform: none; }
+  }
+
+  @media (max-width: 760px) {
+    .brand { display: none; }
+    .nav { justify-content: center; }
+    .step { grid-template-columns: 1fr; gap: 10px; }
+    .step-card.has-media { grid-template-columns: 1fr; }
+    .step-card .media { order: 0; border-left: 0; border-bottom: 1px solid var(--line); width: min(100%, 260px); margin: 0 auto; }
+    .step-text { order: 1; }
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<noscript><p style="padding:24px;color:#c9ced6;font-family:sans-serif">This page needs JavaScript enabled.</p></noscript>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script>
+(function () {
+  "use strict";
+  var h = React.createElement;
+
+  /* ==========================================================================
+     1. SITE SETTINGS  (edit text here)
+     ========================================================================== */
+  var SITE = {
+    brand: "San Antonio Spurs - Digital Products",
+    tag: "San Antonio Spurs App // Version 1.0",
+    headline: "The New Spurs App.",
+    subhead: "A look at how we got here, what is new in 1.0 and where we are headed next.",
+    footerLeft: "San Antonio Spurs - Digital Products // Digital Product",
+    footerRight: "App v1.0"
+  };
+
+  /* ==========================================================================
+     2. SECTIONS  (THE ORDER OF THIS LIST IS THE ORDER ON THE PAGE)
+     To move a section: cut its whole { ... } block and paste it somewhere else
+     in this list. Numbers and the nav bar update automatically.
+     Images: put files in an "images" folder next to index.html.
+     Use 9:16 (portrait) images. If an image is missing, a placeholder shows.
+     kind: "journey"  = step cards (no images)
+           "features" = grid of cards with images
+           "roadmap"  = timeline list (images optional)
+     Journey items: "text" can be a list of bullets, e.g. text: ["First point", "Second point"]
+     ========================================================================== */
+  var SECTIONS = [
+
+    {
+      id: "journey",
+      navLabel: "Journey",
+      kind: "journey",
+      eyebrow: "How we got here",
+      title: "The Journey",
+      blurb: "A thorough, collaborative process behind every decision on the road to 1.0.",
+      items: [
+        {
+          label: "Step 01 // Discover",
+          title: "Listening Across Departments",
+          text: [
+            "Gathered needs and feedback from departments across the organization.",
+            "Identified concerns with the existing app provider."
+          ]
+        },
+        {
+          label: "Step 02 // Consult",
+          title: "Learning From the League",
+          text: [
+            "Consulted with other teams in the league and the NBA.",
+            "Among the other teams with Raw, we were the first one to decide to swap.",
+            "Since then, 2 other teams have swapped."
+          ]
+        },
+        {
+          label: "Step 03 // Evaluate",
+          title: "A Full RFP Process",
+          text: [
+            "Ran a full RFP process with five vendors.",
+            "Had representatives from multiple different departments in each proposal."
+          ]
+        },
+        {
+          label: "Step 04 // Decide",
+          title: "A Unanimous Decision: YinzCam",
+          text: [
+            "Our final decision was unanimous: YinzCam."
+          ],
+          highlight: true
+        }
+      ]
+    },
+
+    {
+      id: "arena",
+      navLabel: "Segmentation",
+      kind: "features",
+      eyebrow: "Personalizing to each fan",
+      title: "Segmentation",
+      blurb: "A full version of the app built for game day at the Frost Bank Center.",
+      items: [
+        { title: "STM Portal", text: "Season ticket members having their own section to access their benefits and resources", image: "images/stmPortal.jpeg" },
+        { title: "Frost Bank Center App Takeover", text: "an app inside an app to access all Frost Bank Center has to offer. For everyone coming to a game, concert, or looking for information", image: "images/fbcPortal.jpeg" },
+        { title: "Segmentation", text: "Complete overhauls of the same pages to give you the information you are looking for. Home page looks different if you are in the arena during a game, at home in San Antonio, or a fan in Paris.", image: "images/I35.jpeg" }
+      ]
+
+    },
+
+    {
+      id: "arcade",
+      navLabel: "Arcade",
+      kind: "features",
+      eyebrow: "Play",
+      title: "The Arcade",
+      blurb: "Games built for fans, giving them a reason to open the app every day.",
+      items: [
+        { title: "Pop a shot game", text: "Describe this game in a sentence or two.", image: "images/popashot.jpeg" },
+        { title: "Maze Game", text: "Describe this game in a sentence or two.", image: "images/mazegame.jpeg" },
+        { title: "The Vault", text: "3 games in one place! Best of 3, Six Clues and Higher/Lower", image: "images/vault2.png" }
+      ]
+    },
+
+    {
+      id: "qol",
+      navLabel: "Meeting fans where they are!",
+      kind: "features",
+      eyebrow: "Refinement",
+      title: "Meeting fans where they are!",
+      blurb: "Smaller improvements that make everyday use faster and smoother.",
+      items: [
+        { title: "Update Title One", text: "Describe this improvement in a sentence or two.", image: "images/qol-1.jpg" },
+        { title: "Update Title Two", text: "Describe this improvement in a sentence or two.", image: "images/qol-2.jpg" },
+        { title: "Update Title Three", text: "Describe this improvement in a sentence or two.", image: "images/qol-3.jpg" }
+      ]
+    },
+
+    {
+      id: "themes",
+      navLabel: "Themes",
+      kind: "features",
+      eyebrow: "Personalization",
+      title: "Custom Themes",
+      blurb: "Being able to make all fans feel a part of what is happening with the team.",
+      items: [
+        { title: "ABA Jersey release", text: "Full takeover when we released our ABA jersey, promoting sales", image: "images/aba.jpeg" },
+        { title: "Halloween Game", text: "Highlighting the Halloween game and bringing bigger value to RBFCU sponsorship", image: "images/halloween.jpeg" },
+        { title: "Schedule Release Theme", text: "During a downtime, really highlighting the big event we have going on before games actually start", image: "images/SR.jpeg" }
+      ]
+    },
+
+    {
+      id: "future",
+      navLabel: "Future",
+      kind: "roadmap",
+      eyebrow: "What is next",
+      title: "The Road Ahead",
+      blurb: "Where the app goes after 1.0.",
+      items: [
+        { when: "Next", title: "Roadmap Item One", text: "Describe what is coming and why it matters.", image: "images/future-1.jpg" },
+        { when: "Soon", title: "Roadmap Item Two", text: "Describe what is coming and why it matters.", image: "images/future-2.jpg" },
+        { when: "Later", title: "Roadmap Item Three", text: "Describe what is coming and why it matters.", image: "" }
+      ]
+    }
+
+  ];
+
+  /* ==========================================================================
+     3. SHARED COMPONENTS
+     ========================================================================== */
+
+  // 9:16 image frame with a placeholder fallback.
+  // fit: "cover" fills the frame (may crop a little). Use "contain" to show the whole image.
+  function Media(props) {
+    var _s = React.useState(false), failed = _s[0], setFailed = _s[1];
+    var showImg = props.src && !failed;
+    return h("div", { className: "media" },
+      showImg
+        ? h("img", { src: props.src, alt: props.alt || "", loading: "lazy", style: { objectFit: props.fit || "cover" }, onError: function () { setFailed(true); } })
+        : h("div", { className: "placeholder" },
+            h("b", null, "9:16 image"),
+            h("span", null, props.src || "no image set")),
+      h("span", { className: "corner tl" }), h("span", { className: "corner tr" }),
+      h("span", { className: "corner bl" }), h("span", { className: "corner br" })
+    );
+  }
+
+  function SectionHeader(props) {
+    var s = props.section;
+    var num = (props.index + 1 < 10 ? "0" : "") + (props.index + 1);
+    return h("div", { className: "sec-head" },
+      h("div", { className: "sec-num", "aria-hidden": "true" }, num),
+      h("div", null,
+        h("div", { className: "sec-eyebrow" }, s.eyebrow),
+        h("h2", { className: "sec-title" }, s.title),
+        s.blurb ? h("p", { className: "sec-blurb" }, s.blurb) : null
+      )
+    );
+  }
+
+  /* ==========================================================================
+     4. SECTION TYPES  (one component per "kind")
+     ========================================================================== */
+  function JourneySection(props) {
+    return h("div", { className: "journey" },
+      props.section.items.map(function (it, i) {
+        var body = Array.isArray(it.text)
+          ? h("ul", { className: "j-list" },
+              it.text.map(function (line, j) { return h("li", { key: j }, line); }))
+          : h("p", null, it.text);
+        return h("article", { className: "j-step" + (it.highlight ? " final" : ""), key: i },
+          h("div", { className: "j-idx" }, it.label || ("Step " + (i + 1))),
+          h("h3", null, it.title),
+          body
+        );
+      })
+    );
+  }
+
+  function FeatureSection(props) {
+    return h("div", { className: "grid" },
+      props.section.items.map(function (it, i) {
+        return h("article", { className: "card", key: i },
+          h(Media, { src: it.image, alt: it.title, fit: it.fit }),
+          h("div", { className: "card-body" },
+            h("h3", null, it.title),
+            h("p", null, it.text)
+          )
+        );
+      })
+    );
+  }
+
+  function RoadmapSection(props) {
+    return h("div", { className: "roadmap" },
+      props.section.items.map(function (it, i) {
+        return h("div", { className: "step", key: i },
+          h("div", { className: "step-when" }, it.when),
+          h("article", { className: "step-card" + (it.image ? " has-media" : "") },
+            h("div", { className: "step-text" },
+              h("h3", null, it.title),
+              h("p", null, it.text)
+            ),
+            it.image ? h(Media, { src: it.image, alt: it.title, fit: it.fit }) : null
+          )
+        );
+      })
+    );
+  }
+
+  // Add a new kind here, then use it as kind: "..." in SECTIONS.
+  var RENDERERS = { journey: JourneySection, features: FeatureSection, roadmap: RoadmapSection };
+
+  /* ==========================================================================
+     5. PAGE
+     ========================================================================== */
+  function Section(props) {
+    var ref = React.useRef(null);
+    React.useEffect(function () {
+      var el = ref.current;
+      if (!el) return;
+      if (!("IntersectionObserver" in window)) { el.classList.add("in"); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+      }, { threshold: 0.08 });
+      io.observe(el);
+      return function () { io.disconnect(); };
+    }, []);
+    var Body = RENDERERS[props.section.kind];
+    return h("section", { id: props.section.id, className: "section reveal", ref: ref },
+      h(SectionHeader, { section: props.section, index: props.index }),
+      Body ? h(Body, { section: props.section }) : h("p", null, "Unknown section kind: " + props.section.kind)
+    );
+  }
+
+  function Nav(props) {
+    return h("header", { className: "nav" },
+      h("div", { className: "brand" }, SITE.brand),
+      h("nav", { className: "nav-links", "aria-label": "Sections" },
+        props.sections.map(function (s) {
+          return h("a", {
+            key: s.id, href: "#" + s.id,
+            className: props.active === s.id ? "active" : "",
+            onClick: function (e) {
+              e.preventDefault();
+              var t = document.getElementById(s.id);
+              if (t) t.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          }, s.navLabel || s.title);
+        })
+      )
+    );
+  }
+
+  function App() {
+    var _a = React.useState(SECTIONS[0] ? SECTIONS[0].id : ""), active = _a[0], setActive = _a[1];
+    React.useEffect(function () {
+      if (!("IntersectionObserver" in window)) return;
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) setActive(e.target.id); });
+      }, { rootMargin: "-40% 0px -55% 0px" });
+      SECTIONS.forEach(function (s) { var el = document.getElementById(s.id); if (el) io.observe(el); });
+      return function () { io.disconnect(); };
+    }, []);
+
+    return h(React.Fragment, null,
+      h(Nav, { sections: SECTIONS, active: active }),
+      h("main", null,
+        h("div", { className: "hero" },
+          h("span", { className: "tag" }, SITE.tag),
+          h("h1", null, SITE.headline),
+          h("p", null, SITE.subhead),
+          h("div", { className: "hero-line" })
+        ),
+        SECTIONS.map(function (s, i) { return h(Section, { key: s.id, section: s, index: i }); })
+      ),
+      h("footer", { className: "footer" }, h("span", null, SITE.footerLeft), h("span", null, SITE.footerRight))
+    );
+  }
+
+  document.documentElement.classList.add("js-reveal");
+  ReactDOM.createRoot(document.getElementById("root")).render(h(App));
+})();
+</script>
+</body>
+</html>
