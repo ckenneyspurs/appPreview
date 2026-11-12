@@ -66,7 +66,7 @@
     color: var(--silver-hi); border: 1px solid var(--line); padding: 6px 12px; border-radius: 2px; background: var(--panel);
   }
   .hero h1 {
-    margin-top: 24px; font-size: clamp(44px, 9vw, 112px); line-height: 0.98; font-weight: 800; letter-spacing: -0.03em; text-transform: uppercase;
+    margin-top: 24px; font-size: clamp(44px, 9vw, 100px); line-height: 0.98; font-weight: 800; letter-spacing: -0.03em; text-transform: uppercase;
     background: linear-gradient(180deg, #ffffff 0%, #b8bec8 45%, #6f7580 100%);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
@@ -90,12 +90,20 @@
   .j-idx { font-family: var(--mono); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--silver-lo); }
   .j-step h3 { margin-top: 12px; font-size: 19px; line-height: 1.2; color: var(--silver-hi); text-transform: uppercase; letter-spacing: 0.03em; }
   .j-step p { margin-top: 10px; font-size: 15px; color: var(--silver-lo); }
+  .j-list { list-style: none; margin-top: 14px; display: grid; gap: 10px; }
+  .j-list li { position: relative; padding-left: 20px; font-size: 15px; color: var(--silver-lo); }
+  .j-list li::before {
+    content: ""; position: absolute; left: 0; top: 0.62em; width: 7px; height: 7px;
+    background: var(--silver); transform: rotate(45deg); opacity: .85;
+  }
   .j-step.final {
     border-color: var(--silver); border-top-color: var(--silver-hi);
     background: linear-gradient(160deg, rgba(255,255,255,0.09), var(--panel) 60%);
     box-shadow: 0 12px 40px var(--glow);
   }
   .j-step.final .j-idx { color: var(--silver-hi); }
+  .j-step.final .j-list li { color: var(--silver); }
+  .j-step.final .j-list li::before { background: var(--silver-hi); }
 
   /* FEATURE GRID (cards hold 9:16 images, so they stay narrow) */
   .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 300px)); justify-content: center; gap: clamp(16px, 2.5vw, 28px); }
@@ -129,9 +137,9 @@
   .step-card { background: var(--panel); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; display: grid; grid-template-columns: 1fr; }
   .step-card.has-media { grid-template-columns: minmax(0, 1fr) 240px; }
   .step-card .media { border-bottom: 0; border-left: 1px solid var(--line); order: 2; align-self: center; }
-  .step-text { padding: 22px 24px; order: 1; align-self: center; }
-  .step-text h3 { font-size: 20px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--silver-hi); }
-  .step-text p { margin-top: 8px; color: var(--silver-lo); font-size: 15px; }
+  .step-text { padding: 22px 24px; order: 1; align-self: center; white-space: pre-line; }
+  .step-text h3 { font-size: 20px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--silver-hi); white-space: pre-line; }
+  .step-text p { margin-top: 8px; color: var(--silver-lo); font-size: 15px; white-space: pre-line; }
 
   /* FOOTER */
   .footer { max-width: 1200px; margin: 0 auto; padding: 40px clamp(16px, 4vw, 48px) 64px; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--silver-lo); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
@@ -173,7 +181,7 @@
   var SITE = {
     brand: "San Antonio Spurs - Digital Products",
     tag: "San Antonio Spurs App // Version 1.0",
-    headline: "The Spurs App Evolved.",
+    headline: "The New Spurs App",
     subhead: "A look at how we got here, what is new in 1.0 and where we are headed next.",
     footerLeft: "San Antonio Spurs - Digital Products // Digital Product",
     footerRight: "App v1.0"
@@ -188,6 +196,7 @@
      kind: "journey"  = step cards (no images)
            "features" = grid of cards with images
            "roadmap"  = timeline list (images optional)
+     Journey items: "text" can be a list of bullets, e.g. text: ["First point", "Second point"]
      ========================================================================== */
   var SECTIONS = [
 
@@ -198,11 +207,45 @@
       eyebrow: "How we got here",
       title: "The Journey",
       blurb: "A thorough, collaborative process behind every decision on the road to 1.0.",
-      items: [      
-        { label: "Step 01 // Discover", title: "Listening Across Departments", text: "We gathered information and needs from departments across the organization and listen to grievances related to the provider at the time." },
-        { label: "Step 02 // Consult", title: "Learning From the League", text: "We consulted with other teams in the league and the NBA. Among the other teams with Raw, we were the first one to decide to swap. Since 2 other teams have swapped." },
-        { label: "Step 03 // Evaluate", title: "A Full RFP Process", text: "We ran a full RFP process with five vendors. Had representatives from multiple different departments in each proposal" },
-        { label: "Step 04 // Decide", title: "A Unanimous Decision: YinzCam", text: "Our final decision was unanimous: YinzCam.", highlight: true }
+      items: [
+        {
+          label: "Step 01 // Discover",
+          title: "Listening Across Departments",
+          text: [
+            "Gathered needs and feedback from departments across the organization.",
+            "Identified concerns with the existing app provider."
+          ]
+        },
+        {
+          label: "Step 02 // Consult",
+          title: "Learning From the League",
+          text: [
+            "Consulted with other teams in the league and the NBA.",
+            "We asked how they felt and who would stay with their provider",
+            "Among the other teams with Raw, we were the first one to decide to swap.",
+            "Since then, 2 other teams have swapped."
+          ]
+        },
+        {
+          label: "Step 03 // Evaluate",
+          title: "A Full RFP Process",
+          text: [
+            "Ran a full RFP process with five vendors. We asked for very specific things",
+            "Can you handle the Ticketmaster integration well",
+            "Can you give us segmentation and flexibility inside the app",
+            "Will the app be able to keep up and adapt to everything we have going on",
+            "What ways do you empower us to create more revenue opporunities"
+
+          ]
+        },
+        {
+          label: "Step 04 // Decide",
+          title: "A Unanimous Decision",
+          text: [
+            "Our final decision was unanimous: YinzCam."
+          ],
+          highlight: true
+        }
       ]
     },
 
@@ -211,14 +254,14 @@
       navLabel: "Segmentation",
       kind: "features",
       eyebrow: "Personalizing to each fan",
-      title: "Segmentation",
+      title: "Showing the fan what they want to see",
       blurb: "A full version of the app built for game day at the Frost Bank Center.",
       items: [
         { title: "STM Portal", text: "Season ticket members having their own section to access their benefits and resources", image: "images/stmPortal.jpeg" },
         { title: "Frost Bank Center App Takeover", text: "an app inside an app to access all Frost Bank Center has to offer. For everyone coming to a game, concert, or looking for information", image: "images/fbcPortal.jpeg" },
         { title: "Segmentation", text: "Complete overhauls of the same pages to give you the information you are looking for. Home page looks different if you are in the arena during a game, at home in San Antonio, or a fan in Paris.", image: "images/I35.jpeg" }
       ]
-      
+
     },
 
     {
@@ -226,8 +269,8 @@
       navLabel: "Arcade",
       kind: "features",
       eyebrow: "Play",
-      title: "The Arcade",
-      blurb: "Games built for fans, giving them a reason to open the app every day.",
+      title: "Giving a reason to interact on non-gameday",
+      blurb: "When the Spurs are off, we give fans things to interact with and compete with to stay engaged with the Spurs.",
       items: [
         { title: "Pop a shot game", text: "Describe this game in a sentence or two.", image: "images/popashot.jpeg" },
         { title: "Maze Game", text: "Describe this game in a sentence or two.", image: "images/mazegame.jpeg" },
@@ -241,10 +284,10 @@
       kind: "features",
       eyebrow: "Refinement",
       title: "Meeting fans where they are!",
-      blurb: "Smaller improvements that make everyday use faster and smoother.",
+      blurb: "We know life is busy for our fans, so went want to meet them where they are to make sure they dont miss the action!",
       items: [
-        { title: "Update Title One", text: "Describe this improvement in a sentence or two.", image: "images/qol-1.jpg" },
-        { title: "Update Title Two", text: "Describe this improvement in a sentence or two.", image: "images/qol-2.jpg" },
+        { title: "Update Title One", text: "Describe this improvement in a sentence or two.", image: "images/liveActivities.jpeg" },
+        { title: "Update Title Two", text: "Describe this improvement in a sentence or two.", image: "images/Carplay.jpeg" },
         { title: "Update Title Three", text: "Describe this improvement in a sentence or two.", image: "images/qol-3.jpg" }
       ]
     },
@@ -254,7 +297,7 @@
       navLabel: "Themes",
       kind: "features",
       eyebrow: "Personalization",
-      title: "Custom Themes",
+      title: "Showcasing the moment digitally",
       blurb: "Being able to make all fans feel a part of what is happening with the team.",
       items: [
         { title: "ABA Jersey release", text: "Full takeover when we released our ABA jersey, promoting sales", image: "images/aba.jpeg" },
@@ -318,10 +361,14 @@
   function JourneySection(props) {
     return h("div", { className: "journey" },
       props.section.items.map(function (it, i) {
+        var body = Array.isArray(it.text)
+          ? h("ul", { className: "j-list" },
+              it.text.map(function (line, j) { return h("li", { key: j }, line); }))
+          : h("p", null, it.text);
         return h("article", { className: "j-step" + (it.highlight ? " final" : ""), key: i },
           h("div", { className: "j-idx" }, it.label || ("Step " + (i + 1))),
           h("h3", null, it.title),
-          h("p", null, it.text)
+          body
         );
       })
     );
@@ -431,8 +478,6 @@
   document.documentElement.classList.add("js-reveal");
   ReactDOM.createRoot(document.getElementById("root")).render(h(App));
 })();
-
-
 </script>
 </body>
 </html>
